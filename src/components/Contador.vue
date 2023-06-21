@@ -1,5 +1,5 @@
 <template>
-  <h3>{{ tituloComponente }}</h3>
+  <h3>{{ evalTitulo }}</h3>
   <p>{{ numero }} <sup>2</sup> = {{ obtenerCuadradoComputado }}</p>
 
   <button @click="clickSum()">+</button>
@@ -11,8 +11,8 @@ export default {
   name: "Contador",
   data() {
     return {
-      numero: 0,
-      tituloComponente :this.titulo ,
+      numero: this.inicio,
+      tituloComponente: this.titulo,
     };
   },
   methods: {
@@ -30,19 +30,31 @@ export default {
     },
   },
   computed: {
-      obtenerCuadradoComputado() {
-        console.log("Entrando al metodo cuadrado computado");
-        return this.numero * this.numero;
+    obtenerCuadradoComputado() {
+      console.log("Entrando al metodo cuadrado computado");
+      return this.numero * this.numero;
+    },
+    evalTitulo() {
+      return this.tituloComponente || "valor por defecto";
+    },
+  },
+  props: {
+    titulo: String,
+    inicio: {
+      type: Number,
+      required: false, //estoy obligado a mandar el parametro cuando esta en true
+      default: 6, //va a tener un valor por defecto si no se envia el valor en este caso 6
+      validator(value) {
+        return value > 10;
       },
     },
-    props:['titulo','valor2']
+  },
 };
-
 </script>
 
 <style>
 button {
-  background-color: #41B883;
+  background-color: #41b883;
   border-radius: 5px;
   border: 1px solid white;
   cursor: pointer;

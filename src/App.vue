@@ -1,13 +1,14 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-<Contador titulo="Prueba 1 titulo"/>
-<Contador titulo="Prueba 2"/>
+  <Contador titulo="Prueba titulo" v-bind:inicio="2 * 6" />
+  <!--para que ese dos se comporte como js se debe agregar el v-bind-->
+  <Contador titulo="Operacion" :inicio="10" />
 </template>
 
 
 
 <script>
-import Contador from "./components/Contador.vue"
+import Contador from "./components/Contador.vue";
 export default {
   name: "App",
   components: {
