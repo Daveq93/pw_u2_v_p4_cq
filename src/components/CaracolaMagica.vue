@@ -1,30 +1,98 @@
 <template>
-  <div>
+  
     <h1>Caracola Magica</h1>
 
-    <img
-      src="https://avatars.akamai.steamstatic.com/e6a2f0aad4d804cfc48c41a1fbf357076edc986e_full.jpg"
-      alt="respApiImg"
-    />
+    <img v-if="urlImagen" v-bind:src="urlImagen" alt="respApiImg" />
 
-    <p>Recuerda terminar presionando un Enter la pregunta</p>
-    <input v-model="pregunta" type="text" placeholder="hasme una preguna" />
-    <div>
-      <h2>Voy a pasar de año</h2>
-      <h1>Si,No</h1>
+    <div class="dg-dark">
+
     </div>
-  </div>
+
+    <div class="contenedor">
+      <p>Recuerda terminar la pregunta con el signo ?</p>
+      <input v-model="pregunta" type="text" placeholder="hasme una preguna" />
+      <div>
+        <h2>{{pregunta}}</h2>
+        <h1>{{ respuesta }}</h1>
+      </div>
+    </div>
+  
 </template>
 
 <script>
 export default {
   data() {
     return {
-      pregunta: "hola mundo",
+      pregunta: "",
+      respuesta: "",
+      urlImagen: null,
     };
+  },
+  watch: {
+    pregunta(value, oldValue) {
+      //este es el mismo que el atributo pregunta
+      // console.log('value: '+value)
+      // console.log('old value: '+oldValue)
+      if (value.includes("?")) {
+        console.log("consumir API");
+        this.consumirApi();
+      }
+    },
+  },
+  methods: {
+    async consumirApi() {
+      //para consumir una api debemos usar fetch()
+      //cada vez que ejecutamos el fetch tenemos que esperar la respuesta
+      //  cuando tengo un metodo que tiene en su cuerpo el await, necesito ponerle la palabra reservada async al metodo
+      const respuesta = await fetch("https://yesno.wtf/api").then((r) =>
+        r.json()
+      );
+      console.log("resp: " + respuesta);
+      const { answer, image } = respuesta;
+      console.log(answer);
+      this.respuesta = answer;
+      console.log(image);
+      this.urlImagen = image;
+    },
   },
 };
 </script>
 
 <style>
+img, .bg-dark {
+  height: 100vh; /**/
+  width: 100vw; /**/
+  left: 0px;
+  max-height: 100%;
+  max-width: 100%;
+  position: fixed;
+  top: 0px;
+}
+
+.bg-dark{
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.contenedor{
+  position: relative;
+
+}
+input{
+  width: 200px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: none;
+  font-size: 20px;
+}
+
+p,h1,h2{
+  color: white;
+}
+
+p{
+  font-size: 30px;
+  margin-top: 0px;
+}
+
+
 </style>
