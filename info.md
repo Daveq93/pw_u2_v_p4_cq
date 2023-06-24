@@ -51,3 +51,7 @@ controlar que no quiero que se suba al git
 
  ####
  usar el atajo (vue) para generar la estructura basica de un complemento
+
+ # Estilos externos
+ pra importarlo debemos agregarlo en el (main.js)
+ import './css/estilos.css'

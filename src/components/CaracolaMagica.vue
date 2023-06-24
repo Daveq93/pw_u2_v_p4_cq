@@ -1,22 +1,17 @@
 <template>
-  
+  <img v-if="urlImagen" v-bind:src="urlImagen" alt="respApiImg" />
+
+  <div class="dg-dark"></div>
+
+  <div class="contenedor">
     <h1>Caracola Magica</h1>
-
-    <img v-if="urlImagen" v-bind:src="urlImagen" alt="respApiImg" />
-
-    <div class="dg-dark">
-
+    <p>Recuerda terminar la pregunta con el signo ?</p>
+    <input v-model="pregunta" type="text" placeholder="hasme una preguna" />
+    <div>
+      <h2>{{ pregunta }}</h2>
+      <h1>{{ respuesta }}</h1>
     </div>
-
-    <div class="contenedor">
-      <p>Recuerda terminar la pregunta con el signo ?</p>
-      <input v-model="pregunta" type="text" placeholder="hasme una preguna" />
-      <div>
-        <h2>{{pregunta}}</h2>
-        <h1>{{ respuesta }}</h1>
-      </div>
-    </div>
-  
+  </div>
 </template>
 
 <script>
@@ -35,7 +30,9 @@ export default {
       // console.log('old value: '+oldValue)
       if (value.includes("?")) {
         console.log("consumir API");
+        this.respuesta = "Pensando tu tonteria...";
         this.consumirApi();
+        this.pregunta = "";
       }
     },
   },
@@ -59,7 +56,8 @@ export default {
 </script>
 
 <style>
-img, .bg-dark {
+img,
+.bg-dark {
   height: 100vh; /**/
   width: 100vw; /**/
   left: 0px;
@@ -69,15 +67,14 @@ img, .bg-dark {
   top: 0px;
 }
 
-.bg-dark{
+.bg-dark {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.contenedor{
+.contenedor {
   position: relative;
-
 }
-input{
+input {
   width: 200px;
   padding: 10px 15px;
   border-radius: 10px;
@@ -85,14 +82,14 @@ input{
   font-size: 20px;
 }
 
-p,h1,h2{
+p,
+h1,
+h2 {
   color: white;
 }
 
-p{
+p {
   font-size: 30px;
   margin-top: 0px;
 }
-
-
 </style>
