@@ -1,22 +1,17 @@
 <template>
-  
+  <img v-if="urlImagen" v-bind:src="urlImagen" alt="respApiImg" />
+
+  <div class="dg-dark"></div>
+
+  <div class="contenedor">
     <h1>Caracola Magica</h1>
-
-    <img v-if="urlImagen" v-bind:src="urlImagen" alt="respApiImg" />
-
-    <div class="dg-dark">
-
+    <p>Recuerda terminar la pregunta con el signo ?</p>
+    <input v-model="pregunta" type="text" placeholder="hasme una preguna" />
+    <div>
+      <h2>{{ pregunta }}</h2>
+      <h1>{{ respuesta }}</h1>
     </div>
-
-    <div class="contenedor">
-      <p>Recuerda terminar la pregunta con el signo ?</p>
-      <input v-model="pregunta" type="text" placeholder="hasme una preguna" />
-      <div>
-        <h2>{{pregunta}}</h2>
-        <h1>{{ respuesta }}</h1>
-      </div>
-    </div>
-  
+  </div>
 </template>
 
 <script>
@@ -25,6 +20,8 @@ export default {
     return {
       pregunta: "",
       respuesta: "",
+      countY: 0,
+      countN:0,
       urlImagen: null,
     };
   },
@@ -36,6 +33,7 @@ export default {
       if (value.includes("?")) {
         console.log("consumir API");
         this.consumirApi();
+        this.contarYes();
       }
     },
   },
@@ -49,17 +47,34 @@ export default {
       );
       console.log("resp: " + respuesta);
       const { answer, image } = respuesta;
-      console.log(answer);
+      console.log("respuesta: " + answer);
       this.respuesta = answer;
       console.log(image);
       this.urlImagen = image;
+      if (answer === "yes") {
+        this.countY++;
+        console.log("contador: " + this.countY);
+      }else{
+        this.countN++;
+      }
+    },
+    contarYes() {
+      if (this.countY === 2) {
+        window.alert("Estas de suerte, has acertado 2 veces");
+        this.countY = 0;
+      }else if(this.countN===2){
+        window.alert("hoy no es un buen dia, tienes 2 NO")
+        this.countN=0;
+      }
+      
     },
   },
 };
 </script>
 
 <style>
-img, .bg-dark {
+img,
+.bg-dark {
   height: 100vh; /**/
   width: 100vw; /**/
   left: 0px;
@@ -69,15 +84,14 @@ img, .bg-dark {
   top: 0px;
 }
 
-.bg-dark{
+.bg-dark {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.contenedor{
+.contenedor {
   position: relative;
-
 }
-input{
+input {
   width: 200px;
   padding: 10px 15px;
   border-radius: 10px;
@@ -85,14 +99,14 @@ input{
   font-size: 20px;
 }
 
-p,h1,h2{
+p,
+h1,
+h2 {
   color: white;
 }
 
-p{
+p {
   font-size: 30px;
   margin-top: 0px;
 }
-
-
 </style>
