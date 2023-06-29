@@ -1,6 +1,6 @@
 <template>
   <h1>Juego Pokemon</h1>
-  <PokemonImg></PokemonImg>
+  <PokemonImg :pokemonId="251" :muestraPokemon="false"></PokemonImg>
   <PokemonOps></PokemonOps>
 </template>
 
@@ -16,5 +16,11 @@ export default {
 };
 </script>
 
+
+
 <style>
+h1,h2{
+  color: bisque;
+}
+
 </style>
