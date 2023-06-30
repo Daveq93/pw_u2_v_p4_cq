@@ -55,3 +55,10 @@ controlar que no quiero que se suba al git
  # Estilos externos
  pra importarlo debemos agregarlo en el (main.js)
  import './css/estilos.css'
+
+
+
+ ## componente con logica
+ paa implementar un alogica en un componente se necesita hacer uso de un archivo javascript diferente
+
+ Cunado se renderiza un componente pasa por faces se llama ciclo de vida (montaje)
