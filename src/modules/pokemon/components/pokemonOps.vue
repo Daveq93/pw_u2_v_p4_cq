@@ -2,11 +2,6 @@
   <h1>pokemon options</h1>
   <div class="contenedor-opciones">
     <ul>
-      <!-- <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    -->
       <li
         v-for="pokemon in opciones"
         :key="pokemon.id"
@@ -46,7 +41,8 @@ li {
   cursor: pointer;
 }
 li:hover {
-  background-color: chocolate;
+  background-color: rgb(12, 136, 174);
+  color: white;
 }
 .contenedor-opciones {
   display: flex;

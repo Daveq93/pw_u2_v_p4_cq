@@ -5,7 +5,7 @@
       :src="imagenFuente"
       alt="no se puede mostrar img"
     />
-    <!-- -->
+    
     <img v-if="muestraPokemon"
       :src="imagenFuente"
       alt="no se puede mostrar img"
@@ -13,7 +13,7 @@
   </div>
 </template>
 <!--el escoped afecta solo al componente donde esta ubidao el estilo-->
-<script scoped>
+<script >
 export default {
   computed: {
     imagenFuente() {
@@ -34,16 +34,16 @@ export default {
   },
 
 };
-</script>
+</script >
 
-<style>
+<style scoped>
 .oculta-pokemon {
   filter: brightness(0);
 }
 img {
-  position: absolute; /*ponera las 2 imagenes en una posicion absoluta */
+  position: absolute;
   height: 200px;
-  right: 38%;
+  
 }
 .contenedor-imagen {
   display: flex;
