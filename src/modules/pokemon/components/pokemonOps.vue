@@ -1,5 +1,5 @@
 <template>
-  <h1>pokemon options</h1>
+  <h1>Pokemon options</h1>
   <div class="contenedor-opciones">
     <ul>
       <li
@@ -27,14 +27,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 ul {
   list-style-type: none;
 }
 li {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  background-color: aliceblue;
+  background-color: rgb(135, 195, 247);
   margin-bottom: 10px;
   width: 200px;
   font-size: 25px;

@@ -4,31 +4,33 @@
       <h1 v-if="!pokemonCorrecto">Espere por favor!</h1>
       <div v-else>
         <h1>Juego Pokemon</h1>
-        <Image :pokemonId="pokemonCorrecto.id" 
-        :muestraPokemon="showPokemon" />
+        <Image :pokemonId="pokemonCorrecto.id" :muestraPokemon="showPokemon" />
         <Option
           :opciones="pokemonArr"
           @seleccionado="revisarSeleccion($event)"
         />
 
-        <div class="puntajes">
-          <p>Puntaje: {{ puntaje }}</p>
-          <p>Intentos:{{ intentos }}</p>
-        </div>
+        <div class="resultados">
+          <div class="puntajes">
+            <p>Puntaje: {{ puntaje }}</p>
+            <p>Intentos:{{ intentos }}</p>
+          </div>
 
-        <div>
-          <button v-if="mostrarSiguiente" 
-          @click="reiniciar">Reiniciar</button>
+          <div>
+            <button v-if="mostrarSiguiente" @click="reiniciar" :premiosEnviar="premios">
+              Reiniciar
+            </button>
+          </div>
+
+          <div v-if="ganador">
+            <h2>Felicidades, has ganado el juego</h2>
+          </div>
+
+          <div v-if="perdedor">
+            <h2>Game over</h2>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div v-if="ganador">
-      <h2>Felicidades, has ganado el juego</h2>
-    </div>
-
-    <div v-if="perdedor">
-      <h2>Game over</h2>
     </div>
   </div>
 </template>
@@ -56,6 +58,8 @@ export default {
       ganador: false,
       perdedor: false,
       juegoActivo: true,
+      ////
+      premios: [],
     };
   },
   mounted() {
@@ -69,49 +73,72 @@ export default {
       this.pokemonCorrecto = this.pokemonArr[indicePokemon];
       this.showPokemon = false;
       this.mostrarSiguiente = false;
-      console.log("cargando inicial")
+      console.log("cargando inicial");
     },
     revisarSeleccion(idSeleccionado) {
-      if(this.intentos < 3){
-        if(this.intentos==0 && this.pokemonCorrecto.id == idSeleccionado){
-                 this.puntaje +=5;
-                 this.showPokemon = true;
-            this.mostrarSiguiente = true;
-            this.ganador=true;
-           // this.cargaJuegoInicial();
-        } else if(this.intentos==1 && this.pokemonCorrecto.id==idSeleccionado){
-          this.puntaje +=2;
-                 this.showPokemon = true;
-            this.mostrarSiguiente = true;
-            this.ganador=true;
-           // this.cargaJuegoInicial();
-        }else if(this.intentos==2 && this.pokemonCorrecto.id==idSeleccionado){
-          this.puntaje +=1;
-                 this.showPokemon = true;
-            this.mostrarSiguiente = true;
-            this.ganador=true;
-           // this.cargaJuegoInicial();
-        }else{
-         ++ this.intentos
+      if (this.intentos < 3) {
+        console.log("Intentos: " + this.intentos);
+        if (this.intentos == 0 && this.pokemonCorrecto.id == idSeleccionado) {
+          this.puntaje += 5;
+          this.showPokemon = true;
+          this.mostrarSiguiente = true;
+          this.ganador = true;
+          this.cargarPremios();
+          ++this.intentos;
+        } else if (
+          this.intentos == 1 &&
+          this.pokemonCorrecto.id == idSeleccionado
+        ) {
+          this.puntaje += 2;
+          this.showPokemon = true;
+          this.mostrarSiguiente = true;
+          this.ganador = true;
+          this.cargarPremios();
+          ++this.intentos;
+        } else if (
+          this.intentos == 2 &&
+          this.pokemonCorrecto.id == idSeleccionado
+        ) {
+          this.puntaje += 1;
+          this.showPokemon = true;
+          this.mostrarSiguiente = true;
+          this.ganador = true;
+          this.cargarPremios();
+          ++this.intentos;
+        } else {
+          ++this.intentos;
         }
-
-      }else{
+      } else {
         this.perdedor = true;
         this.mostrarSiguiente = true;
       }
-
     },
-    siguienteM() {
-      this.cargaJuegoInicial();
+    cargarPremios() {
+      let valPrem = 0;
+      if (this.ganador) {
+        if (this.intentos == 0) {
+          valPrem = 10000;
+          this.premios.push(valPrem);
+        } else if (this.intentos == 1) {
+          valPrem = 5000;
+          this.premios.push(valPrem);
+        } else if (this.intentos == 2) {
+          valPrem = 1000;
+          this.premios.push(valPrem);
+        }
+        console.log("------------------------------- Puntajes -------------- " +this.premios
+        );
+      }
     },
     ganador() {
       this.ganador = true;
-      this.showPokemon=true;
-      this.mostrarSiguiente=true;
+
+      this.showPokemon = true;
+      this.mostrarSiguiente = true;
     },
     perdedor() {
       this.perdedor = true;
-      this.mostrarSiguiente=true;
+      this.mostrarSiguiente = true;
     },
     reiniciar() {
       this.puntaje = 0;
@@ -120,40 +147,46 @@ export default {
       this.perdedor = false;
       this.juegoActivo = true;
       this.pokemonCorrecto = null;
-      this.mostrarSiguiente=false;
+      this.mostrarSiguiente = false;
       this.cargaJuegoInicial();
     },
   },
-  
 };
 </script>
 
-<style>
+<style scoped>
+/*
 h1,
 h2 {
   color: rgb(66, 145, 169);
-}
-.container{
-  text-align: center;
+}*/
+.container {
+  /*text-align: center;*/
+  display: flex;
+  justify-content: center;
 }
 
-.puntajes p{
+.puntajes p {
   display: inline;
   margin-left: 40px;
   margin-right: 40px;
   font-size: 20px;
-  font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-
+  font-family: Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
-button{
+button {
   font-size: 20px;
   border-style: none;
   border-radius: 10px;
   width: 120px;
 }
 
-button:hover{
+button:hover {
   background-color: aqua;
+}
+.resultados {
+  background-color: rgba(135, 195, 247, 0.8);
+  border: 3px solid black;
+  border-radius: 10px;
 }
 </style>
